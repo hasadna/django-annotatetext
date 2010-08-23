@@ -12,7 +12,7 @@ class NewAnnotationForm(forms.Form):
     flags = forms.ChoiceField(choices=enumerate(ANNOTATION_FLAGS),widget=forms.Select(attrs={"class":"annotationflagselect"}), required=True)
     content_type = forms.IntegerField(widget=forms.HiddenInput, required=True)
     object_id = forms.IntegerField(widget=forms.HiddenInput, required=True)
-    comment = forms.CharField(widget=forms.Textarea(attrs={'cols': 50, 'rows': 3}), required=False)
+    comment = forms.CharField(widget=forms.Textarea(attrs={'rows': 5 }), required=False)
     color = forms.CharField(initial="#3f0b5c", widget=forms.TextInput(attrs={"size":6}), required=False)
     lengthcheck = forms.IntegerField(widget=forms.HiddenInput, required=True)
             
@@ -49,9 +49,10 @@ class NewAnnotationForm(forms.Form):
         # so not every model can be annotated, don't know if this is cool in practice
         if not getattr(obj, "annotatable", False):
             raise forms.ValidationError(_("Invalid object"))
-        if not hasattr(obj,Annotation.field_name):
+        #TODO: generalize
+        if not hasattr(obj,'body'):
             raise forms.ValidationError(_("Bogus object"))
-        text = getattr(obj, Annotation.field_name)
+        text = getattr(obj, 'body')
         if len(text) != cleaned_data["lengthcheck"]:
             raise forms.ValidationError(_("Text changed"))
         if not "selection_start" in cleaned_data or not "selection_end" in cleaned_data:

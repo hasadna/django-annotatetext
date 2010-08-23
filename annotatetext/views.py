@@ -20,7 +20,8 @@ def post_annotation(request):
                     color=form.cleaned_data["color"])
         new_annotation.save()
         fragment = "#annotation-%d" % new_annotation.id
-        return HttpResponseRedirect(request.POST.get("next","/") + fragment)
+        # return HttpResponseRedirect(request.POST.get("next","/") + fragment)
+        return HttpResponseRedirect(new_annotation.content_object.get_absolute_url())
     else:
         return HttpResponseBadRequest()
 

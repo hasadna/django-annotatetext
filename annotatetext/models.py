@@ -9,7 +9,13 @@ from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
 from django.conf import settings
 
-ANNOTATION_FLAGS = getattr(settings, "ANNOTATETEXT_FLAGS", (_("Annotation"), ))
+# entries from settings.py are not translated automaticly 
+# http://docs.djangoproject.com/en/dev/ref/settings/#languages
+flags = getattr(settings, "ANNOTATETEXT_FLAGS", None)
+if flags is None:
+    ANNOTATION_FLAGS = (_("Annotation"), )
+else:
+    ANNOTATION_FLAGS = map(_, flags)
 
 
 class Annotation(models.Model):
@@ -39,7 +45,7 @@ class Annotation(models.Model):
     content_type = models.ForeignKey(ContentType)
     object_id = models.PositiveIntegerField()
     content_object = generic.GenericForeignKey('content_type', 'object_id')
-    field_name = models.CharField(blank=True, null=True, max_length=100)
+    field_name = models.CharField(default='body', null=True, max_length=100)
     selection_start = models.IntegerField()
     selection_end = models.IntegerField(blank=True, null=True)
     comment = models.TextField(blank=True)
@@ -119,7 +125,7 @@ class Annotation(models.Model):
         return text
 
     @classmethod
-    def get_textfield_from_object(cls, obj, field_name="text"):
+    def get_textfield_from_object(cls, obj, field_name="body"):
         if field_name is None:
             return unicode(getattr(obj, "text", ""))
         else:
