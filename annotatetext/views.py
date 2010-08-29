@@ -1,10 +1,12 @@
 from django.shortcuts import get_object_or_404
+from django.contrib.auth.decorator import login_required
 from django.http import Http404, HttpResponseRedirect, HttpResponseBadRequest, \
     HttpResponseForbidden, HttpResponseNotAllowed
 
 from annotatetext.forms import NewAnnotationForm
 from annotatetext.models import Annotation
 
+@login_required
 def post_annotation(request):
     if request.method != "POST":
         return HttpResponseNotAllowed(["POST"])
