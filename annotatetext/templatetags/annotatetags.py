@@ -16,13 +16,10 @@ def simple_formatting(value):
     value = force_escape(value)
     value = value.replace("\r\n", "\n")
     value = "<p>%s</p>" % value
-    value = re.sub("(?sum) - (.*?)\n", "<li> - \\1</li>\n", value)
-    value = re.sub("(?sum) ([a-z0-9]+\)) (.*?)\n", "<li> \\1 \\2</li>\n", value)
-    value = re.sub("(?sum)((?:<li>.*?</li>\n)+)", "</p><ul>\\1</ul><p>", value)
     value = re.sub("(?sum)\n\n", "\n\n</p><p>", value)
-    value = re.sub("(?sum)</ul><p>(\s+)</p><ul>", "</ul>\\1<ul>", value)
     value = re.sub("(?sum)</p><p>(\s+)</p><p>", "\\1</p><p>", value)
-    value = re.sub("(?sum)([^(?:</li>|</ul>|\n)])\n([^(?:</p>|<li>|\n</p>|<ul>)])", "\\1<br/>\n\\2", value)
+    value = re.sub("(?sum)[ ]+"," ", value)
+    value = value.replace("\n", "<br>\n")
     return mark_safe(value)
 
 def find(f, seq):
