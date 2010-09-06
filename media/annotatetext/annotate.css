@@ -14,7 +14,7 @@ body {
 .hideme{
     display:block;
     position:absolute;
-    left:-999em;
+    top:-999em;
 }
 
 blockquote {
