@@ -13,6 +13,12 @@ register = template.Library()
 @register.filter
 @stringfilter
 def simple_formatting(value):
+    """Add some HTML (e.g. convert double linebreaks into aragraphs) *without changing 
+       the character count outside the html tags*.
+       This is because the JavaScript will go through the HTMLified text and put in 
+       -markings at the right places by counting the text characters leaving out the 
+       characters belonging to the HTML.
+    """
     value = force_escape(value)
     value = value.replace("\r\n", "\n")
     value = "<p>%s</p>" % value
