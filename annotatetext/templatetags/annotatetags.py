@@ -18,7 +18,6 @@ def simple_formatting(value):
     value = "<p>%s</p>" % value
     value = re.sub("(?sum)\n\n", "\n\n</p><p>", value)
     value = re.sub("(?sum)</p><p>(\s+)</p><p>", "\\1</p><p>", value)
-    value = re.sub("(?sum)[ ]+"," ", value)
     value = value.replace("\n", "<br>\n")
     return mark_safe(value)
 
