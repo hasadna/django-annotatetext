@@ -91,7 +91,7 @@ class InsertAnnotationNode(template.Node):
         if len(instance_list) == 0:
             return ''
         ct = ContentType.objects.get_for_model(instance_list[0])
-        annotations = Annotation.objects.filter(content_type=ct, object_id__in=[o.id for o in instance_list])\
+        annotations = Annotation.objects.filter(content_type=ct, object_id__in=instance_list)\
             .select_related("user").order_by("object_id", "selection_start", "-selection_end")
         annotation_dict = {}
         for annotation in annotations:
