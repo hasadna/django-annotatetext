@@ -1,4 +1,4 @@
-from django.conf.urls.defaults import *
+from django.conf.urls import patterns, include
 from django.conf import settings
 
 # Uncomment the next two lines to enable the admin:
@@ -9,7 +9,7 @@ urlpatterns = patterns('',
     # Example:
     (r'^$', 'otherapp.views.index', {}, 'index'),
     (r'^annotate/', include('annotatetext.urls')),
-    # Uncomment the admin/doc line below and add 'django.contrib.admindocs' 
+    # Uncomment the admin/doc line below and add 'django.contrib.admindocs'
     # to INSTALLED_APPS to enable admin documentation:
     # (r'^admin/doc/', include('django.contrib.admindocs.urls')),
 
